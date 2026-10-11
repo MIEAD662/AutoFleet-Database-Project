@@ -1,0 +1,448 @@
+--AutoFleet Database 
+
+
+
+
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Welcome to my AutoFleet ');
+END;
+/
+
+set pagesize 100;
+set linesize 1000;
+
+
+
+create table ROBOT(
+  Robot_Id VARCHAR(50),
+  Robot_Name varchar(50),
+  Robot_Type varchar(50),
+  Model varchar(50),
+  Manfacturer_Id VARCHAR(50),
+  Robot_Status varchar(50)
+);
+
+desc ROBOT;
+
+
+create table DRONE(
+  Drone_Id VARCHAR(50),
+  Drone_Name varchar(50),
+  Drone_Type varchar(50),
+  Model varchar(50),
+  Manfacturer_Id VARCHAR(50),
+  Drone_Status varchar(50)
+);
+
+desc DRONE;
+
+
+create table MANUFACTURER(
+  Manufacturer_Id VARCHAR(50),
+  Manufacturer__Name varchar(50),
+  Country varchar(50),
+  Contact varchar(50)
+);
+
+desc MANUFACTURER;
+
+
+
+create table OPERATOR(
+  Operator_Id VARCHAR(50),
+  Operator_Name varchar(50),
+  Phone varchar(50),
+  License_No VARCHAR(50),
+  Experience varchar(50)
+);
+
+desc OPERATOR;
+
+
+create table MISSION(
+  Mission_Id number,
+  Mission___Name varchar(50),
+  StartDate number,
+  EndtDate number,
+  L_ocation varchar(50),
+  Mission_Status varchar(50)
+);
+
+desc MISSION;
+
+
+
+--RELATION TABLE 
+create table ROBOT_COMPONENT(
+  component_id number,
+  robot_id number,
+  component_name varchar(50),
+  component_type varchar(50),
+  manufacturer varchar(50)
+);
+desc ROBOT_COMPONENT;
+
+--RELATION TABLE
+
+create table DRONE_COMPONENT(
+  component_id number,
+  drone_id number,
+  component_name varchar(50),
+  component_type varchar(50),
+  specification varchar(50)
+);
+
+desc DRONE_COMPONENT;
+
+
+--RELATION TABLE
+
+create table MAINTENANCE(
+  maintenance_id number,
+  robot_id number,
+  drone_id number,
+  technician varchar(50),
+  maintenance_date number,
+  problem varchar(90),
+  cost number
+);
+
+desc MAINTENANCE;
+
+
+--RELATION TABLE
+
+create table MISSION_ASSIGNMENT(
+  assignment_id number,
+  mission_id number,
+  operator_id number,
+  robot_id number,
+  drone_id number
+);
+
+desc MISSION_ASSIGNMENT;
+
+
+--ROBOT TABLE DATA
+insert into ROBOT values('R001' , 'ASIMO', 'Humanoid', 'Asimo','M001','Retired');
+insert into ROBOT values('R002' , 'Atlas', 'Humanoid', 'Asimo','M002','Active');
+insert into ROBOT values('R003' , 'Spot' ,  'Quadruped','Spot','M002','Active');
+insert into ROBOT values('R004' , 'Optimus', 'Humanoid', 'Optimus-Gen-2','M003','Development');
+insert into ROBOT values('R005' , 'Pepper', 'Social Robot', 'Pepper','M004','Active');
+insert into ROBOT values('R006' , 'NAO',    'Humanoid', 'NAO6', 'M001','Active');
+select * from ROBOT;
+
+
+
+
+
+--DRONE TABLE DATA
+insert into DRONE values('D001', 'Mavic 3', 'Consumer Drone', 'Mavic 3', 'M009', 'Active');
+insert into DRONE values('D002', 'Phantom 4', 'Camera Drone', 'Phantom 4 Pro', 'M009', 'Active');
+insert into DRONE values('D003', 'Inspire 2', 'Professional Drone', 'Inspire 2', 'M009', 'Active');
+insert into DRONE values('D004', 'Matrice 300', 'Industrial Drone', 'Matrice 300 RTK', 'M009', 'Active');
+insert into DRONE values('D005', 'Agras T40', 'Agricultural Drone', 'Agras T40', 'M009', 'Active');
+insert into DRONE values('D006', 'Bayraktar TB2', 'Military UAV', 'TB2', 'M010', 'Active');
+insert into DRONE values('D007', 'MQ-9 Reaper', 'Military UAV', 'MQ-9', 'M011', 'Active');
+insert into DRONE values('D008', 'Global Hawk', 'Surveillance UAV', 'RQ-4', 'M012', 'Active');
+insert into DRONE values('D009', 'Wing Drone', 'Delivery Drone', 'Wing UAV', 'M013', 'Testing');
+insert into DRONE values('D010', 'Avata 2', 'FPV Drone', 'Avata 2', 'M009', 'Active');
+select * from DRONE;
+
+
+--MANUFACTURER TABLE DATA
+insert into MANUFACTURER values('M001', 'Honda', 'Japan', '+81-3-1111');
+insert into MANUFACTURER values('M002', 'Boston Dynamics', 'USA', '+1-617-2222');
+insert into MANUFACTURER values('M003', 'Tesla', 'USA', '+1-512-3333');
+insert into MANUFACTURER values('M004', 'SoftBank Robotics', 'Japan', '+81-3-4444');
+insert into MANUFACTURER values('M005', 'United Robotics Group', 'France', '+33-5555');
+insert into MANUFACTURER values('M006', 'Intuitive Surgical', 'USA', '+1-408-6666');
+insert into MANUFACTURER values('M007', 'NASA', 'USA', '+1-202-7777');
+insert into MANUFACTURER values('M008', 'iRobot', 'USA', '+1-781-8888');
+insert into MANUFACTURER values('M009', 'DJI', 'China', '+86-755-9999');
+insert into MANUFACTURER values('M010', 'Baykar', 'Turkiye', '+90-212-1010');
+insert into MANUFACTURER values('M011', 'General Atomics', 'USA', '+1-858-2020');
+insert into MANUFACTURER values('M012', 'Northrop Grumman', 'USA', '+1-703-3030');
+insert into MANUFACTURER values('M013', 'Wing', 'USA', '+1-404-4040');
+select * from MANUFACTURER;
+
+
+--OPERATOR DATA TABLE
+insert into OPERATOR values('O001', 'Alex Morgan', '01710000001', 'OP-1001', '5 Years');
+insert into OPERATOR values('O002', 'Daniel Smith', '01710000002', 'OP-1002', '8 Years');
+insert into OPERATOR values('O003', 'James Wilson', '01710000003', 'OP-1003', '6 Years');
+insert into OPERATOR values('O004', 'Sophia Brown', '01710000004', 'OP-1004', '4 Years');
+insert into OPERATOR values('O005', 'Ethan Davis', '01710000005', 'OP-1005', '7 Years');
+insert into OPERATOR values('O006', 'Olivia Miller', '01710000006', 'OP-1006', '3 Years');
+insert into OPERATOR values('O007', 'Noah Taylor', '01710000007', 'OP-1007', '9 Years');
+insert into OPERATOR values('O008', 'Emma Anderson', '01710000008', 'OP-1008', '5 Years');
+select * from OPERATOR;
+
+
+--MISSION TABLE DATA
+insert into MISSION values(1, 'Delivery Mission', 20260110, 20260110, 'Dhaka', 'Completed');
+insert into MISSION values(2, 'Surveillance Mission', 20260115, 20260116, 'Chattogram', 'Completed');
+insert into MISSION values(3, 'Agriculture Mission', 20260205, 20260205, 'Rajshahi', 'Completed');
+insert into MISSION values(4, 'Search and Rescue', 20260218, 20260219, 'Sylhet', 'Completed');
+insert into MISSION values(5, 'Industrial Inspection', 20260302, 20260302, 'Dhaka', 'Completed');
+insert into MISSION values(6, 'Research Mission', 20260315, 20260320, 'Mars', 'Ongoing');
+insert into MISSION values(7, 'Security Mission', 20260401, 20260403, 'Coxs Bazar', 'Completed');
+insert into MISSION values(8, 'Medical Delivery', 20260412, 20260412, 'Narayanganj', 'Completed');
+insert into MISSION values(9, 'Exploration Mission', 20260501, 20260510, 'Remote Area', 'Ongoing');
+insert into MISSION values(10, 'Testing Mission', 20260520, 20260521, 'Dhaka', 'Testing');
+
+select * from MISSION;
+
+
+
+
+--ROBOT_COMPONENT TABLE DATA
+insert into ROBOT_COMPONENT values(1, 1, 'Motor', 'Actuator', 'Honda');
+insert into ROBOT_COMPONENT values(2, 1, 'Camera', 'Vision Sensor', 'Honda');
+insert into ROBOT_COMPONENT values(3, 2, 'Motor', 'Actuator', 'Boston Dynamics');
+insert into ROBOT_COMPONENT values(4, 2, 'Sensor', 'Motion Sensor', 'Boston Dynamics');
+insert into ROBOT_COMPONENT values(5, 3, 'Camera', 'Vision Sensor', 'Boston Dynamics');
+insert into ROBOT_COMPONENT values(6, 3, 'Controller', 'Main Controller', 'Boston Dynamics');
+insert into ROBOT_COMPONENT values(7, 4, 'Actuator', 'Joint Actuator', 'Tesla');
+insert into ROBOT_COMPONENT values(8, 5, 'Camera', 'Vision Sensor', 'SoftBank Robotics');
+insert into ROBOT_COMPONENT values(9, 6, 'Sensor', 'Touch Sensor', 'Honda');
+insert into ROBOT_COMPONENT values(10, 7, 'Camera', 'Surgical Camera', 'Intuitive Surgical');
+select * from ROBOT_COMPONENT;
+
+
+--DRONE_COMPONENT TABLE DATA
+insert into DRONE_COMPONENT values(1, 1, 'Motor', 'Brushless Motor', 'High Performance');
+insert into DRONE_COMPONENT values(2, 1, 'Camera', 'Hasselblad Camera', '4K Camera');
+insert into DRONE_COMPONENT values(3, 2, 'Propeller', 'Low Noise Propeller', '9455S');
+insert into DRONE_COMPONENT values(4, 2, 'GPS', 'Navigation System', 'GPS + GLONASS');
+insert into DRONE_COMPONENT values(5, 3, 'Camera', 'Professional Camera', '4K Video');
+insert into DRONE_COMPONENT values(6, 4, 'Sensor', 'Obstacle Sensor', '360 Degree Detection');
+insert into DRONE_COMPONENT values(7, 5, 'Battery', 'Smart Battery', 'High Capacity');
+insert into DRONE_COMPONENT values(8, 6, 'GPS', 'Navigation System', 'Military GPS');
+insert into DRONE_COMPONENT values(9, 7, 'Camera', 'Surveillance Camera', 'Electro Optical');
+insert into DRONE_COMPONENT values(10, 10, 'Battery', 'Intelligent Battery', 'High Capacity');
+select * from DRONE_COMPONENT;
+
+
+--MAINTENANCE TABLE DATA
+insert into MAINTENANCE values(1, 1, null, 'John Smith', 20260112, 'Motor Problem', 500);
+insert into MAINTENANCE values(2, 2, null, 'David Wilson', 20260120, 'Sensor Problem', 750);
+insert into MAINTENANCE values(3, 3, null, 'Robert Brown', 20260210, 'Camera Problem', 600);
+insert into MAINTENANCE values(4, null, 1, 'Michael Lee', 20260215, 'Battery Problem', 450);
+insert into MAINTENANCE values(5, null, 2, 'Daniel Clark', 20260222, 'Propeller Damage', 300);
+insert into MAINTENANCE values(6, 4, null, 'James Taylor', 20260305, 'Actuator Problem', 900);
+insert into MAINTENANCE values(7, null, 4, 'William Davis', 20260312, 'Sensor Problem', 650);
+insert into MAINTENANCE values(8, 5, null, 'Thomas Miller', 20260325, 'Camera Problem', 550);
+insert into MAINTENANCE values(9, null, 7, 'Henry Moore', 20260405, 'GPS Problem', 800);
+insert into MAINTENANCE values(10, null, 10, 'Daniel Smith', 20260515, 'Battery Problem', 400);
+select * from MAINTENANCE;
+
+
+--MISSION_ASSIGNMENT TABLE DATA
+insert into MISSION_ASSIGNMENT values(1, 1, 1, 1, 1);
+insert into MISSION_ASSIGNMENT values(2, 2, 2, 2, 8);
+insert into MISSION_ASSIGNMENT values(3, 3, 3, null, 5);
+insert into MISSION_ASSIGNMENT values(4, 4, 4, 3, 7);
+insert into MISSION_ASSIGNMENT values(5, 5, 5, 7, 4);
+insert into MISSION_ASSIGNMENT values(6, 6, 6, 8, null);
+insert into MISSION_ASSIGNMENT values(7, 7, 7, null, 6);
+insert into MISSION_ASSIGNMENT values(8, 8, 8, 7, 9);
+insert into MISSION_ASSIGNMENT values(9, 9, 1, 9, null);
+insert into MISSION_ASSIGNMENT values(10, 10, 2, 4, 10);
+select * from MISSION_ASSIGNMENT;
+
+
+--Problem 1: Which robot belongs to which manufacturer?
+SELECT r.Robot_Id,
+       r.Robot_Name,
+       r.Robot_Type,
+       m.Manufacturer__Name,
+       m.Country
+FROM ROBOT r
+INNER JOIN MANUFACTURER m
+ON r.Manfacturer_Id = m.Manufacturer_Id;
+
+--All robots and their maintaenance information
+
+--SELECT r.Robot_Name,
+     --  r.Robot_Status,
+     --  m.Technician,
+     --  m.Problem,
+    --   m.Cost
+--FROM ROBOT r
+--LEFT JOIN MAINTENANCE m
+--ON r.Robot_Id = m.Robot_Id;
+
+select count(*) as total_Robots
+from ROBOT;
+
+
+select count(*) as Total_Drones
+from DRONE;
+
+select count(*) as Total_Missions
+from MISSION;
+
+
+select count(*) AS Active_Robots
+from ROBOT
+where Robot_Status = 'Active';
+
+
+select MAX(Cost) as Highest_Maintenance_Cost
+from MAINTENANCE;
+
+
+
+SELECT d.drone_Id,
+       d.drone_Name,
+       d.drone_Type,
+       m.Manufacturer__Name,
+       m.Country
+FROM DRONE d
+INNER JOIN MANUFACTURER m
+ON d.Manfacturer_Id = m.Manufacturer_Id;
+
+
+
+
+SELECT Robot_Name, Robot_Type FROM ROBOT WHERE Robot_Status = 'Retired';
+select avg(cost) as average_cost
+from MAINTENANCE;
+
+
+
+
+
+
+
+
+
+--List the robots associated with each manufacturer, and also show the manufacturers that do not have any robots.
+SELECT m.Manufacturer__Name,
+       m.Country,
+       r.Robot_Name,
+       r.Robot_Type
+FROM ROBOT r
+RIGHT JOIN MANUFACTURER m
+ON r.Manfacturer_Id = m.Manufacturer_Id;
+
+
+
+--How many drones are there of each drone type?
+SELECT Robot_Status,
+       COUNT(*) AS Total_Robots
+FROM ROBOT
+GROUP BY Robot_Status;
+
+
+--How many times has each type of maintenance problem occurred?
+SELECT Problem,
+       COUNT(*) AS Total_Problems
+FROM MAINTENANCE
+GROUP BY Problem;
+
+
+--What is the average maintenance cost per robot?
+
+SELECT r.Robot_Name,
+       AVG(m.Cost) AS Average_Maintenance_Cost
+FROM ROBOT r
+INNER JOIN MAINTENANCE m
+ON TO_NUMBER(SUBSTR(r.Robot_Id, 2)) = m.Robot_Id
+GROUP BY r.Robot_Name;
+
+
+--Created a view to display information about robots and their manufacturers.
+CREATE VIEW Robot_Manufacturer_View AS
+SELECT r.Robot_Name,
+       r.Robot_Type,
+       r.Robot_Status,
+       m.Manufacturer__Name,
+       m.Country
+FROM ROBOT r
+JOIN MANUFACTURER m
+ON r.Manfacturer_Id = m.Manufacturer_Id;
+
+
+--Creating a view to show how many robots each manufacturer has produced.
+CREATE VIEW Manufacturer_Robot_Count AS
+SELECT m.Manufacturer__Name,
+       COUNT(r.Robot_Id) AS Total_Robots
+FROM MANUFACTURER m
+LEFT JOIN ROBOT r
+ON m.Manufacturer_Id = r.Manfacturer_Id
+GROUP BY m.Manufacturer__Name;
+
+
+--Status check of the R002 robot on the ROBOT table.Active হয় তাহলে "Robot is Ready" দেখাবে, না হলে "Robot is Not Ready"
+
+DECLARE
+    r_status ROBOT.Robot_Status%TYPE;
+BEGIN
+    SELECT Robot_Status
+    INTO r_status
+    FROM ROBOT
+    WHERE Robot_Id = 'R002';
+
+    IF r_status = 'Active' THEN
+        DBMS_OUTPUT.PUT_LINE('Robot is Ready');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Robot is Not Ready');
+    END IF;
+END;
+/
+
+
+--OBOT table-এর R002 robot-এর status অনুযায়ী message;Active → Robot is Operational,Robot is Under Development,Robot is Retired,Unknown Status
+
+DECLARE
+    r_status ROBOT.Robot_Status%TYPE;
+BEGIN
+    SELECT Robot_Status
+    INTO r_status
+    FROM ROBOT
+    WHERE Robot_Id = 'R002';
+
+    IF r_status = 'Active' THEN
+        DBMS_OUTPUT.PUT_LINE('Robot is Operational');
+
+    ELSIF r_status = 'Development' THEN
+        DBMS_OUTPUT.PUT_LINE('Robot is Under Development');
+
+    ELSIF r_status = 'Retired' THEN
+        DBMS_OUTPUT.PUT_LINE('Robot is Retired');
+
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Unknown Status');
+    END IF;
+END;
+/
+
+
+--The cost for maintenance ID 6 from the MAINTENANCE table.High Maintenance Cost,Medium Maintenance Cost,Low Maintenance Cost
+
+DECLARE
+    m_cost MAINTENANCE.Cost%TYPE;
+BEGIN
+    SELECT Cost
+    INTO m_cost
+    FROM MAINTENANCE
+    WHERE Maintenance_Id = 6;
+
+    IF m_cost > 800 THEN
+        DBMS_OUTPUT.PUT_LINE('High Maintenance Cost');
+
+    ELSIF m_cost >= 500 THEN
+        DBMS_OUTPUT.PUT_LINE('Medium Maintenance Cost');
+
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Low Maintenance Cost');
+    END IF;
+END;
+/
+
+
+
+
+
